@@ -1,31 +1,35 @@
 ---
-title: "learning_logbook"
+title: "Learning logbook on Tree phenology analysis with R"
 author: "Clemens Stephany"
 date: "10/11/2021"
-output: html_document
+output:
+  bookdown::html_document2: default
+bibliography: "bib/Tree Phenology.bib"
+link-citations: yes
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-test 
 
-## R Markdown
+## Tree Dormancy (Chapter 3)
+Exercises on tree dormancy
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+1. Put yourself in the place of a breeder who wants to calculate the temperature requirements of a newly released cultivar. Which method will you use to calculate the chilling and forcing periods? Please justify your answer. <p>
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+<p>
 
-```{r cars}
-summary(cars)
-```
+2. Which are the advantages (2) of the BBCH scale compared with earlies scales? <p>
+   * Standardizes the phenological stages and make them easily recognizable under all field conditions across species to have an easily comparable metric for classification.
+   * Two digit code allows two orders of scale, where the macro stage (principal growth stages) is represented by the first digit and describes time spans and the second digit specifies micro stages (secondary growth stages) precise steps within.
+<p>
 
-## Including Plots
+3. Classify the following phenological stages of sweet cherry according to the BBCH scale:
+![BBCH_states_cherry](http://inresgb-lehre.iaas.uni-bonn.de/chillR_book/pictures/pheno_stages.png)
+Left image: 56 - Flower pedicel elongating (in the top most bud sepals are showing a white tip)<br>
+Middle image: 61 to 65 - Flowering (all flowers to be seen are open, but to determine the correct percentage a broader view is needed)<br>
+Right image: 89 - Fruit ripe for harvesting<br>
+(See @fadon_flower_2015 for reference)
+<p>
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Climate change and impact projection (Chapter 4)
