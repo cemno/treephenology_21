@@ -14,7 +14,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Tree Dormancy (Chapter 3)
 Exercises on tree dormancy
 
-1. Put yourself in the place of a breeder who wants to calculate the temperature requirements of a newly released cultivar. Which method will you use to calculate the chilling and forcing periods? Please justify your answer. <p><p>
+1. Put yourself in the place of a breeder who wants to calculate the temperature requirements of a newly released cultivar. Which method will you use to calculate the chilling and forcing periods? Please justify your answer. <p>
+<p>
 As temperature requirements are dependent on the cultivar, new data about the date of dormancy has to be collected with an experimental approach first. If this data was already collected by an institute one can calculate the chilling and forcing period by using weather data and statistical methods such as a partial least square (PLS) regression analysis [@luedeling_identification_2013]. With this method the chilling phase can be calculated using the dynamic model and the forcing phase is calculated using growing degree dates (GDD). Knowing in which specific timespan chilling and heat is especially important for a cultivar a fitting one can be selected for the region. Site-specific knowledge is also essential to pick future-proof cultivars that are already adapted for global warming. 
 <p>
 
@@ -34,3 +35,4 @@ Right image: 89 - Fruit ripe for harvesting<br>
 ## Climate change and impact projection (Chapter 4)
 
 # Bibliography
+
