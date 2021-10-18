@@ -14,10 +14,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Tree Dormancy (Chapter 3)
 Exercises on tree dormancy
 
-1. Put yourself in the place of a breeder who wants to calculate the temperature requirements of a newly released cultivar. Which method will you use to calculate the chilling and forcing periods? Please justify your answer. <p>
-<p>
-As temperature requirements are dependent on the cultivar, new data about the date of dormancy has to be collected with an experimental approach first. If this data was already collected by an institute one can calculate the chilling and forcing period by using weather data and statistical methods such as a partial least square (PLS) regression analysis [@luedeling_identification_2013]. With this method the chilling phase can be calculated using the dynamic model and the forcing phase is calculated using growing degree dates (GDD). Knowing in which specific timespan chilling and heat is especially important for a cultivar a fitting one can be selected for the region. Site-specific knowledge is also essential to pick future-proof cultivars that are already adapted for global warming. 
-<p>
+1. Put yourself in the place of a breeder who wants to calculate the temperature requirements of a newly released cultivar. Which method will you use to calculate the chilling and forcing periods? Please justify your answer.<p><p>
+As temperature requirements are dependent on the cultivar, new data about the date of dormancy has to be collected with an experimental approach first. If this data was already collected by an institute one can calculate the chilling and forcing period by using weather data and statistical methods such as a partial least square (PLS) regression analysis [@luedeling_identification_2013]. With this method the chilling phase can be calculated using the dynamic model and the forcing phase is calculated using growing degree dates (GDD). Knowing in which specific timespan chilling and heat is especially important for a cultivar a fitting one can be selected for the region. Site-specific knowledge is also essential to pick future-proof cultivars that are already adapted for global warming.<p>
 
 2. Which are the advantages (2) of the BBCH scale compared with earlies scales? <p>
    * Standardizes the phenological stages and make them easily recognizable under all field conditions across species to have an easily comparable metric for classification.
@@ -33,13 +31,19 @@ Right image: 89 - Fruit ripe for harvesting<br>
 <p>
 
 ## Climate change and impact projection (Chapter 4)
-Exercises on climate change
-1. List the main drivers of climate change at the decade to century scale, and briefly explain the mechanism through which the currently most important driver affects our climate. <p>
+Exercises on climate change<p>
 
-2. Explain briefly what is special about temperature dynamics of the recent decades, and why we have good reasons to be concerned. <p>
-
-3. What does the abbreviation ‘RCP’ stand for, how are RCPs defined, and what is their role in projecting future climates? <p>
-
+1. List the main drivers of climate change at the decade to century scale, and briefly explain the mechanism through which the currently most important driver affects our climate. <p><p>
+   * Sun: Variation in radiation over time.
+   * Aerosols: Various molecules or particles suspended in the air. Can block radiation and can thus affect local climate massively (e.g. smog). Both natural and anthropogenic sources exists.
+   * Clouds: Blocks radiation in both directions, so incoming radiation is partially kept out and reflected radiation from earth gets trapped.
+   * Ozone: Ozone blocks harmful UV-A radiation but also acts as a greenhouse gas. Destroying the natural ozone shield heightened risk of skin cancer and cause(d) environmental damage.
+   * Surface albedo: Surfaces reflect/absorb radiation dependent on their material.
+   Greenhouse gases (GHGs): Absorb radiation at certain wavelengths (Long-wave radiation from the earth surface). Major GHGs are water vapour, carbon dioxide (CO~2~), methane (CH~4~) and nitrous oxide (N~2~O). By far the biggest driver of the recent climate change.<p>
+2. Explain briefly what is special about temperature dynamics of the recent decades, and why we have good reasons to be concerned.<p><p>
+Considering the two last millenniums up to a few decades ago the global climate was quite cold on average. Looking at the last decade the the average temperature keeps rising above every record previously know. The Problem with the increasing temperatures are not only direct effects, but positive feedback such as melting ice caps or defrosting permafrost landscapes. With increasing temperature the surface albedo changes and will absorb even more radiation or frozen methane is being released which will increase the warming even more. While such periods exist in earth history already, they were spread across million years. This time gave enough time for evolution to adapt and move across the planet. What usually happens on such a large temporal scale is now happening within a decade with no time for such adaptation.
+3. What does the abbreviation ‘RCP’ stand for, how are RCPs defined, and what is their role in projecting future climates? <p><p>
+The Representative Concentration Pathways (RCPs) are possible climate scenarios simulating the impact of different GHG emission pathways from 2000 to 2100. The number after RCP (e.g. RCP6.0) stands for the additional expected radiative forcing (W m^-2^) by 2100. They are large scale simulations from which other studies derive their data to calculate global climate models and derived from these regional climate models.
 4. Briefly describe the 4 climate impact projection methods described in the fourth video. <p>
 
 
