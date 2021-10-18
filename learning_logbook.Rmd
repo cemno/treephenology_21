@@ -33,6 +33,15 @@ Right image: 89 - Fruit ripe for harvesting<br>
 <p>
 
 ## Climate change and impact projection (Chapter 4)
+Exercises on climate change
+1. List the main drivers of climate change at the decade to century scale, and briefly explain the mechanism through which the currently most important driver affects our climate. <p>
+
+2. Explain briefly what is special about temperature dynamics of the recent decades, and why we have good reasons to be concerned. <p>
+
+3. What does the abbreviation ‘RCP’ stand for, how are RCPs defined, and what is their role in projecting future climates? <p>
+
+4. Briefly describe the 4 climate impact projection methods described in the fourth video. <p>
+
 
 # Bibliography
 
