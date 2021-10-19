@@ -11,6 +11,8 @@ link-citations: yes
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+[Course Materials](http://inresgb-lehre.iaas.uni-bonn.de/chillR_book/winter-chill-projections.html)
+
 ## Tree Dormancy (Chapter 3)
 Exercises on tree dormancy
 
