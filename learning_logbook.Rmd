@@ -24,7 +24,7 @@ As temperature requirements are dependent on the cultivar, new data about the da
 
 3. Classify the following phenological stages of sweet cherry according to the BBCH scale:
 ![BBCH_states_cherry](http://inresgb-lehre.iaas.uni-bonn.de/chillR_book/pictures/pheno_stages.png)
-Left image: 56 - Flower pedicel elongating (in the top most bud sepals are showing a white tip)<br>
+Left image: 56 - Flower pedicel elongating (in the top most bud sepals can be seen as a white tip)<br>
 Middle image: 61 to 65 - Flowering (all flowers to be seen are open, but to determine the correct percentage a broader view is needed)<br>
 Right image: 89 - Fruit ripe for harvesting<br>
 (See @fadon_flower_2015 for reference)
@@ -47,6 +47,24 @@ The Representative Concentration Pathways (RCPs) are possible climate scenarios 
 4. Briefly describe the 4 climate impact projection methods described in the fourth video. <p>
    * Statistical models: Establish a relationship between different climatic parameters and ecological data which is then used to project future distributions. Because of the wide range of results using different algorithms using an ensemble has become common. But there are also other limitations. The statistical relationship doesn't have to remain valid due to e.g. other factors changing that weren't included in the original model. It is also assuming that the species distribution is in an equilibrium with the climate, which may change or is already not the case as humans plant what they need, not what is naturally best suited.
    * Process-based models: Represents all major systems processes with equations based on the best scientific knowledge on each of the subjects. They are very precise but highly specific, which results in extensive assumptions and/or extensive parametrization. Even seemingly small processes are often not sufficiently understood and such models for large and complex systems don't even exists. There are also often linear assumptions build into these process models, which might not be valid in the future.
-   * Climate analogue models: Projected climate at a given location might already exists today somewhere else with similar climate conditions. While the general idea sounds promising, there are a lot of other aspects being more important than the difference in climate itself. If differences are to be found, there is also the question of origin. Are these differences due to climate or other factors? The work to balance out all these different factors to make the sides comparable starts to not make this kind of approach feasible anymore.
+   * Climate analogue models: Projected climate at a given location might already exists today somewhere else with similar climate conditions. While the general idea sounds promising, there are a lot of other aspects being more important than the difference in climate itself. If differences are to be found, there is also the question of origin. Are these differences due to climate or other factors? The work to balance out all these different factors to make the sides comparable starts to not make this kind of approach feasible anymore.<p>
+   <br>Here is an extensive overview of these three methods:
+![climate_impact_projections_methods_workflow](https://ars.els-cdn.com/content/image/1-s2.0-S1877343513000924-gr1.jpg)
+![climate_impact_projections_methods_pro_con](https://ars.els-cdn.com/content/image/1-s2.0-S1877343513000924-gr2.jpg) <br>
+Source: @luedeling_agroforestry_2014 <p>
+   * Complex systems: The approach to model complex system is a holistic one incorporating any relevant information from all kind of resources. Handling uncertainties very well, it allows rough estimates to be inputs of the model and can thus cover all relevant aspects without extensive studies. The core are causal models which combine the information to calculate an outcome distribution. This approach is used in Decision Science and can be seen in this [project](https://github.com/cemno/optimizing-pesticide-application-in-orchards) from last semester.
+
+## Winter chill projections (Chapter 5)
+Exercises on past chill projections<p>
+1. Sketch out three data access and processing challenges that had to be overcome in order to produce chill projections with state-of-the-art methodology. <p><p>
+   * Getting regional high resolution temperature data (Oman)
+   * Processing global data into high-resolution regional data (Tunisia)
+   * Processing data without programming language, usable models or an API (up to California)
+   * Processing multiple scenarios increases processing and storage requirements exponentially (Kenya)
+<p>
+2. Outline, in your understanding, the basic steps that are necessary to make such projections.<p><p>
+test
+<p>
+
 # Bibliography
 
