@@ -7,9 +7,7 @@ bibliography: "bib/Tree Phenology.bib"
 link-citations: yes
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 ## Tree Dormancy (Chapter 3)
 Exercises on tree dormancy
