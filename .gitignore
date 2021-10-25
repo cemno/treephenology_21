@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
+.learning_logbook_cache/
+.learning_logbook_files/
