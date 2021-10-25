@@ -20,7 +20,7 @@ warm_hours_rep <- function(num_vec){
 microbenchmark(
   warm_hours_rep = {warm_hours_rep(Winters_hours_gaps$Temp)},
   warm_hours_ifelse = {warm_hours_ifelse(Winters_hours_gaps$Temp)},
-  times = 100000
+  times = 10000
   )
 
 # Input single number which then is transformed to fit current table schema
@@ -87,7 +87,7 @@ Winters_hours_gaps_real_dates <- within(Winters_hours_gaps,
                                           sprintf("%d-%02d-%02d %02d:00", Year, Month, Day, Hour))
                                         )[,c("Date","Temp_gaps", "Temp")]
 
-microbenchmark(
+res_benchmark <- microbenchmark(
   using_numbers = {
     filter_temp_on_num_dates(Winters_hours_gaps, start_date_num, end_date_num)
   },
@@ -99,3 +99,4 @@ microbenchmark(
   },
   times = 100000
 )
+print(res_benchmark, signif = 3)

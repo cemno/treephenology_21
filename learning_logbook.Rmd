@@ -69,17 +69,23 @@ Exercises on past chill projections<p>
 test
 
 ## Manual chill analysis (Chapter 6)
-Exercises on basic chill modeling
+Exercises on basic chill modelling
 1. Write a basic function that calculates warm hours (>25°C)
 2. Apply this function to the Winters_hours_gaps dataset
 3. Extend this function, so that it can take start and end dates as inputs and sums up warm hours between these dates
 
 To evaluate the performance of different methods all these exercises where combined and extended in the following script.
 
-```{r, include=FALSE, cache=FALSE}
-knitr::read_chunk('exercise_6.R')
+```{r exercise_6, cache=TRUE, code=readLines("exercise_6.R")}
 ```
-```{r, test-a, echo=FALSE}
+
+## Chill Models (Chapter 7)
+Exercises on chill models<p>
+1. Run the chilling() function on the Winters_hours_gap dataset
+2. Create your own temperature-weighting chill model using the step_model() function
+3. Run this model on the Winters_hours_gaps dataset using the tempResponse() function.
+
+```{r exercise_7, cache=TRUE, code=readLines("exercise_7.R")}
 ```
 
 # Bibliography
