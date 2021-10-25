@@ -37,11 +37,11 @@ filter_temp_on_num_dates <- function(df, start_date, end_date){
   start_row <- which((df$Year == start_year) & 
                        (df$Month == start_month) & 
                        (df$Day == start_day) & 
-                       (df$Hour == start_hour),)
+                       (df$Hour == start_hour))
   end_row <- which((df$Year == end_year) & 
                      (df$Month == end_month) & 
                      (df$Day == end_day) & 
-                     (df$Hour == end_hour),)
+                     (df$Hour == end_hour))
   return(sum(warm_hours_rep(df[start_row:end_row,]$Temp)))
 }
 
@@ -62,11 +62,11 @@ filter_temp_on_dates <- function(df, start_date, end_date){
   start_row <- which((df$Year == start_year) & 
                        (df$Month == start_month) & 
                        (df$Day == start_day) & 
-                       (df$Hour == start_hour),)
+                       (df$Hour == start_hour))
   end_row <- which((df$Year == end_year) & 
                      (df$Month == end_month) & 
                      (df$Day == end_day) & 
-                     (df$Hour == end_hour),)
+                     (df$Hour == end_hour))
   return(sum(warm_hours_rep(df[start_row:end_row,]$Temp)))
 }
 
