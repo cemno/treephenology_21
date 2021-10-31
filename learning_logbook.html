@@ -275,7 +275,13 @@ test</li>
 </div>
 <div id="manual-chill-analysis-chapter-6" class="section level2">
 <h2>Manual chill analysis (Chapter 6)</h2>
-<p>Exercises on basic chill modelling 1. Write a basic function that calculates warm hours (&gt;25°C) 2. Apply this function to the Winters_hours_gaps dataset 3. Extend this function, so that it can take start and end dates as inputs and sums up warm hours between these dates</p>
+Exercises on basic chill modelling
+<p>
+<ol style="list-style-type: decimal">
+<li>Write a basic function that calculates warm hours (&gt;25°C)</li>
+<li>Apply this function to the Winters_hours_gaps dataset</li>
+<li>Extend this function, so that it can take start and end dates as inputs and sums up warm hours between these dates</li>
+</ol>
 <p>To evaluate the performance of different methods all these exercises where combined and extended in the following script.</p>
 <pre class="r"><code>library(chillR)
 library(microbenchmark)
@@ -302,9 +308,9 @@ microbenchmark(
   times = 10000
   )</code></pre>
 <pre><code>## Unit: microseconds
-##               expr    min     lq      mean  median      uq        max neval cld
-##     warm_hours_rep 26.473 27.491  33.48082 28.2385 28.8905   4313.408 10000  a 
-##  warm_hours_ifelse 82.980 85.293 116.47277 86.1880 87.5780 117139.174 10000   b</code></pre>
+##               expr    min     lq     mean median      uq       max neval cld
+##     warm_hours_rep 20.248 20.949 27.20767 21.210 21.5810  3875.468 10000  a 
+##  warm_hours_ifelse 64.451 68.368 93.94843 69.019 70.0315 94537.832 10000   b</code></pre>
 <pre class="r"><code># Input single number which then is transformed to fit current table schema
 # Advantages: no hassle with POSIXct
 filter_temp_on_num_dates &lt;- function(df, start_date, end_date){
@@ -383,10 +389,10 @@ res_benchmark &lt;- microbenchmark(
 )
 print(res_benchmark, signif = 3)</code></pre>
 <pre><code>## Unit: microseconds
-##                  expr   min    lq  mean median  uq    max neval cld
-##         using_numbers 278.0 284.0 355.0  287.0 295 175000 1e+05  b 
-##           using_dates 311.0 319.0 388.0  324.0 339 180000 1e+05   c
-##  using_dates_on_dates  67.1  73.4  89.9   77.3  95   3500 1e+05 a</code></pre>
+##                  expr   min    lq  mean median    uq    max neval cld
+##         using_numbers 217.0 222.0 275.0  225.0 229.0 140000 1e+05  b 
+##           using_dates 240.0 247.0 305.0  250.0 255.0 142000 1e+05   c
+##  using_dates_on_dates  61.1  65.5  69.8   68.6  70.5   4420 1e+05 a</code></pre>
 </div>
 <div id="chill-models-chapter-7" class="section level2">
 <h2>Chill Models (Chapter 7)</h2>
@@ -409,7 +415,7 @@ Chilling_Hours</code></pre>
 ##         return(cumsum(CH_weights))
 ##     else return(CH_weights)
 ## }
-## &lt;bytecode: 0x556fb8e5b208&gt;
+## &lt;bytecode: 0x55a376b0e250&gt;
 ## &lt;environment: namespace:chillR&gt;</code></pre>
 <pre class="r"><code>#Chilling_Hours(Winters_hours_gaps$Temp, summ = FALSE)
 plot(Utah_Model(Winters_hours_gaps$Temp, summ = TRUE))</code></pre>
