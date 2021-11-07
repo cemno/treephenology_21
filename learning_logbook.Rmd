@@ -88,5 +88,15 @@ Exercises on chill models<p>
 ```{r exercise_7, cache=TRUE, code=readLines("exercise_7.R")}
 ```
 
+## Making hourly temperatures (Chapter 8)
+Exercises on hourly temperatures<p>
+1. Choose a location of interest, find out its latitude and produce plots of daily sunrise, sunset and daylength
+2. Produce an hourly dataset, based on idealized daily curves, for the KA_weather dataset (included in chillR)
+3. Produce empirical temperature curve parameters for the Winters_hours_gaps dataset, and use them to predict hourly values from daily temperatures (this is very similar to the example above, but please make sure you understand what’s going on)
+
+
+```{r exercise_8, cache=TRUE, code=readLines("exercise_8.R")}
+```
+
 # Bibliography
 
