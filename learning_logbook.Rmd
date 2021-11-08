@@ -69,7 +69,7 @@ Exercises on past chill projections<p>
 test
 
 ## Manual chill analysis (Chapter 6)
-Exercises on basic chill modelling
+Exercises on basic chill modelling<p>
 1. Write a basic function that calculates warm hours (>25°C)
 2. Apply this function to the Winters_hours_gaps dataset
 3. Extend this function, so that it can take start and end dates as inputs and sums up warm hours between these dates
@@ -86,6 +86,16 @@ Exercises on chill models<p>
 3. Run this model on the Winters_hours_gaps dataset using the tempResponse() function.
 
 ```{r exercise_7, cache=TRUE, code=readLines("exercise_7.R")}
+```
+
+## Making hourly temperatures (Chapter 8)
+Exercises on hourly temperatures<p>
+1. Choose a location of interest, find out its latitude and produce plots of daily sunrise, sunset and daylength
+2. Produce an hourly dataset, based on idealized daily curves, for the KA_weather dataset (included in chillR)
+3. Produce empirical temperature curve parameters for the Winters_hours_gaps dataset, and use them to predict hourly values from daily temperatures (this is very similar to the example above, but please make sure you understand what’s going on)
+
+
+```{r exercise_8, cache=TRUE, code=readLines("exercise_8.R")}
 ```
 
 # Bibliography

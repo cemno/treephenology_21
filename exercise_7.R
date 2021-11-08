@@ -1,4 +1,4 @@
-library(chillR)
+require(chillR)
 ?Chilling_Hours
 Chilling_Hours
 #Chilling_Hours(Winters_hours_gaps$Temp, summ = FALSE)

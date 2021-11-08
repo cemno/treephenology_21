@@ -1,4 +1,6 @@
 base
 chillR
-ggplot2
 microbenchmark
+reshape2
+ggplot2
+data.table
