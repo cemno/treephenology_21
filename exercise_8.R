@@ -50,10 +50,10 @@ fjaell_a_hourly <- data.frame(fjaell_a_hourly,
 fjaell_a_hourly_to_day <- make_all_day_table(fjaell_a_hourly, timestep = "hour")
 
 #fjaell_a_hourly_inter <- interpolate_gaps_hourly(fjaell_a_hourly_to_day, latitude = 61.8)
-fjaell_a_hourly_inter <- read.csv("fjaell_a_hourly_data_interpolated.csv")
+fjaell_a_hourly_inter <- read.csv("data/fjaell_a_hourly_data_interpolated.csv")
 fjaell_a_hourly_inter$date_time <- as.POSIXct(fjaell_a_hourly_inter$date_time)
-write.csv(fjaell_a_hourly_inter$weather, file = "fjaell_a_hourly_data_interpolated.csv", row.names = FALSE)
-#write.csv(fjaell_a_hourly_inter$daily_patch_report, file = "fjaell_a_hourly_data_interpolated_quality_check.csv", row.names = FALSE)
+write.csv(fjaell_a_hourly_inter$weather, file = "data/fjaell_a_hourly_data_interpolated.csv", row.names = FALSE)
+#write.csv(fjaell_a_hourly_inter$daily_patch_report, file = "data/fjaell_a_hourly_data_interpolated_quality_check.csv", row.names = FALSE)
 
 nrow(fjaell_a_hourly_inter[fjaell_a_hourly_inter$Tmin_source == "interpolated",]) + nrow(fjaell_a_hourly_inter[fjaell_a_hourly_inter$Tmax_source == "interpolated",]) 
 nrow(fjaell_a_hourly_inter[fjaell_a_hourly_inter$Tmin_source == "solved",]) + nrow(fjaell_a_hourly_inter[fjaell_a_hourly_inter$Tmax_source == "solved",])
