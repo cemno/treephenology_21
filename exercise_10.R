@@ -1,0 +1,1 @@
+# Fullufjället Nationalpark Rösjöstugorna:61.623929, 12.677148; crs=wgs84
