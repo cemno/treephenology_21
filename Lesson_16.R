@@ -173,6 +173,8 @@ for(RCP in RCPs)
 # Now we have produced all the chill projections and saved them for later use.
 
 # Let's make scenarios we can plot.
+library(chillR)
+
 
 chill_past_scenarios<-load_temperature_scenarios(
   "data/chill",
@@ -183,6 +185,8 @@ chills <-make_climate_scenario(chill_past_scenarios,
                                caption = "Historic",
                                historic_data = chill_observed,
                                time_series = TRUE)
+RCPs<-c("rcp45","rcp85")
+Times<-c(2050,2085)
 
 for(RCP in RCPs)
   for(Time in Times)
@@ -385,11 +389,11 @@ chill_change_plot<-
 chill_change_plot
 
 ## Now we use gganimate to animate this.
-
+#(not working properly yet)
 library(gganimate)
-chill_change_plot + transition_reveal(Year)
+#chill_change_plot + transition_reveal(Year)
 
-anim_save("data/chill_comparison_animation.gif", animation = last_animation())
+#anim_save("data/chill_comparison_animation.gif", animation = last_animation())
 
 
 
