@@ -74,7 +74,7 @@ chill
 
 KA_temps_JD<-make_JDay(read_tab("data/TMaxTMin1958-2019_patched.csv"))
 temps<-stack_hourly_temps(
-  KA_temps_JD[which(KA_temps_JD$JDay>305|KA_temps_JD$JDay<90),],
+  KA_temps_JD[which(KA_temps_JD$JDay>305|KA_temps_JD$JDay<31),],
   latitude=50.6)
 hh<-hist(temps$hourtemps$Temp,breaks=c(-30:30), plot=FALSE)
 hh_df<-data.frame(
@@ -85,7 +85,7 @@ hh_df$value[which(hh_df$value==0)]<-NA
 
 Beijing_temps_JD<-make_JDay(read_tab("data/Beijing_weather.csv"))
 temps<-stack_hourly_temps(
-  Beijing_temps_JD[which(Beijing_temps_JD$JDay>305|Beijing_temps_JD$JDay<90),]
+  Beijing_temps_JD[which(Beijing_temps_JD$JDay>305|Beijing_temps_JD$JDay<31),]
   ,latitude=39.9)
 hh<-hist(temps$hourtemps$Temp,breaks=c(-30:30), plot=FALSE)
 hh_df_2<-data.frame(T=hh$mids,
@@ -95,7 +95,7 @@ hh_df_2$value[which(hh_df_2$value==0)]<-NA
 
 Davis_temps_JD<-make_JDay(read_tab("data/Davis_weather.csv"))
 temps<-stack_hourly_temps(
-  Davis_temps_JD[which(Davis_temps_JD$JDay>305|Davis_temps_JD$JDay<90),],
+  Davis_temps_JD[which(Davis_temps_JD$JDay>305|Davis_temps_JD$JDay<31),],
   latitude=38.5)
 hh<-hist(temps$hourtemps$Temp,breaks=c(-30:40), plot=FALSE)
 hh_df_3<-data.frame(T=hh$mids,
