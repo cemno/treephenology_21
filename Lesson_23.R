@@ -37,7 +37,7 @@ plscf <- PLS_chill_force(
 # Here we need the plot_PLS_chill_force function we defined in lesson 20.
 
 require(ggplot2)
-
+source("treephenology_functions.R")
 plot_PLS_chill_force(
   plscf,
   chill_metric = "Chill_Portions",
@@ -68,10 +68,13 @@ heat <- tempResponse(
   models = list(GDH = GDH)
 )
 
-
-
-
-
+# Calculate mean chill and heat accumulation
+mean(chill$Chill_Portions)
+sd(chill$Chill_Portions)
+quantile(chill$Chill_Portions, c(0.05, 0.5, 0.95))
+mean(heat$GDH)
+sd(heat$GDH)
+quantile(heat$GDH, c(0.05, 0.5, 0.95))
 
 ggplot(data = chill, aes(x = Chill_Portions)) +
   geom_histogram() +
@@ -79,8 +82,6 @@ ggplot(data = chill, aes(x = Chill_Portions)) +
   xlab("Chill accumulation (Chill Portions)") +
   ylab("Frequency between 1958 and 2019") +
   theme_bw(base_size = 12)
-
-
 
 
 ggplot(data = heat, aes(x = GDH)) +
@@ -125,8 +126,6 @@ mpt <- make_pheno_trend_plot(
   image_type = "png",
   colorscheme = "normal"
 )
-
-
 
 
 
