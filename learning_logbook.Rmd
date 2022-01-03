@@ -98,5 +98,14 @@ Exercises on hourly temperatures<p>
 ```{r exercise_8, cache=TRUE, code=readLines("exercise_8.R")}
 ```
 
+```{r exercise_9, cache=TRUE, code=readLines("exercise_9.R")}
+```
+
+```{r exercise_10, cache=TRUE, code=readLines("exercise_10.R")}
+```
+
+```{r exercise_11, cache=TRUE, code=readLines("exercise_11.R")}
+```
+
 # Bibliography
 
