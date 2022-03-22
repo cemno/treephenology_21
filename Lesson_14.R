@@ -12,10 +12,10 @@ Bonn_weather_raw<-handle_gsod(action="download_weather",
 # convert weather data to chillR format
 Bonn_weather<-handle_gsod(Bonn_weather_raw)
 # check record for missing data
-fix_weather(Bonn_weather)$QC
+fix_weather(Bonn_weather$`KOLN BONN`$weather)
 # (incidentally almost all gaps are for years covered by the KA_weather dataset)
 Bonn_patched<-patch_daily_temperatures(
-  weather=Bonn_weather$weather,
+  weather=Bonn_weather$`KOLN BONN`$weather,
   patch_weather=list(KA_weather))
 # There are still 26 days missing here, out of 47 years -
 # let's simply interpolate these gaps now
@@ -50,9 +50,10 @@ Times<-c(2050,2085)
 
 for(RCP in RCPs)
   for(Time in Times)
-  {start_year <- Time-15
-  end_year <- Time+15
-  clim_scen <-getClimateWizardData(
+  {
+    start_year <- Time-15
+    end_year <- Time+15
+    clim_scen <-getClimateWizardData(
     c(longitude = 7.143,latitude = 50.866),
     RCP,
     start_year,
