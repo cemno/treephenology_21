@@ -2,7 +2,7 @@ require(chillR)
 require(reshape2)
 require(ggplot2)
 
-sun_path <- data.frame(JDay = 1:365,daylength(61.8, 1:365))
+sun_path <- data.frame(JDay = 1:365,daylength(41.149178, 1:365))
 sun_path_long <- melt(sun_path, id = c("JDay"))
 
 sun_path_plot <- ggplot(sun_path_long, aes(x = JDay, y = value))+
@@ -13,16 +13,16 @@ sun_path_plot <- ggplot(sun_path_long, aes(x = JDay, y = value))+
 sun_path_plot
 
 
-str(KA_weather)
+# Create idealized temperature
 hour_temps_CKA_ideal <- stack_hourly_temps(KA_weather, 51)
 
 
-str(Winters_hours_gaps)
+# Create empirical based interpolated temperature data
 temp_coeffs <- Empirical_daily_temperature_curve(Winters_hours_gaps)
 Winter_daily <- make_all_day_table(Winters_hours_gaps, input_timestep="hour")
 hour_temps_winter_emp <- Empirical_hourly_temperatures(Winter_daily, temp_coeffs)
 
-
+# Abandoned project
 # # Self excerise: Interpolating data for a Fjäll in sweden (historical hourly data available)
 # fjaell_a_hourly <- read.csv2(file = "data/smhi-opendata_1_112540_20211031_164311.csv",header = TRUE, dec = ".", sep = ";", quote = "", skip = 10)
 # fjaell_a_hourly$date_time <- as.POSIXct(paste(fjaell_a_hourly$Datum, fjaell_a_hourly$"Tid..UTC."), tz = "UTM")

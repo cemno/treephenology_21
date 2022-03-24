@@ -1,12 +1,237 @@
 # Plot PLS chill and forcing period
 library(ggplot2)
+apply_const_temp <-
+  function(temp, A0, A1, E0, E1, Tf, slope, portions=1200, deg_celsius=TRUE)
+  {
+    temp_vector <- rep(temp, times=portions)
+    res <- chillR::DynModel_driver(temp=temp_vector,
+                                   A0=A0, A1=A1,
+                                   E0=E0, E1=E1,
+                                   Tf=Tf,
+                                   slope=slope,
+                                   deg_celsius=deg_celsius)
+    return(res$y[length(res$y)])
+  }
+
+gen_bell <- function(par, temp_values=seq(-5, 20, 0.1)) {
+  E0 <- par[5]
+  E1 <- par[6]
+  A0 <- par[7]
+  A1 <- par[8]
+  Tf <- par[9]
+  slope <- par[12]
+  
+  y <- c()
+  for(i in seq_along(temp_values)) {
+    y[i] <- apply_const_temp(temp=temp_values[i],
+                             A0=A0, A1=A1, E0=E0, E1=E1, Tf=Tf, slope=slope)
+  }
+  return(invisible(y))
+}
+
+GDH_response<-function(T, par)
+{Tb<-par[11]
+Tu<-par[4]
+Tc<-par[10]
+GDH_weight <- rep(0, length(T))
+GDH_weight[which(T >= Tb & T <= Tu)] <-
+  1/2 * (1 + cos(pi + pi * (T[which(T >= Tb & T <= Tu)] - Tb)/(Tu - Tb)))
+GDH_weight[which(T > Tu & T <= Tc)] <-
+  (1 + cos(pi/2 + pi/2 * (T[which(T >  Tu & T <= Tc)] -Tu)/(Tc - Tu)))
+return(GDH_weight)
+}
+pheno_trend_ggplot<-function(temps,
+                             pheno,
+                             chill_phase,
+                             heat_phase,
+                             phenology_stage="Bloom")
+{
+  library(fields)
+  library(reshape2)
+  library(metR)
+  library(ggplot2)
+  library(colorRamps)
+  
+  # first, a sub-function (function defined within a function) to
+  # compute the temperature means
+  
+  mean_temp_period<-function(temps,
+                             start_JDay,
+                             end_JDay, 
+                             end_season = end_JDay)
+  { temps_JDay<-make_JDay(temps)
+  temps_JDay[,"Season"]<-temps_JDay$Year
+  if(start_JDay>end_season)
+    temps_JDay$Season[which(temps_JDay$JDay>=start_JDay)]<-
+    temps_JDay$Year[which(temps_JDay$JDay>=start_JDay)]+1
+  if(start_JDay>end_season)
+    sub_temps<-subset(temps_JDay,JDay<=end_JDay|JDay>=start_JDay)
+  if(start_JDay<=end_JDay)
+    sub_temps<-subset(temps_JDay,JDay<=end_JDay&JDay>=start_JDay)
+  mean_temps<-aggregate(sub_temps[,c("Tmin","Tmax")],
+                        by=list(sub_temps$Season),
+                        FUN=function(x) mean(x, na.rm=TRUE))
+  mean_temps[,"n_days"]<-aggregate(sub_temps[,"Tmin"],
+                                   by=list(sub_temps$Season),
+                                   FUN=length)[,2]
+  mean_temps[,"Tmean"]<-(mean_temps$Tmin+mean_temps$Tmax)/2
+  mean_temps<-mean_temps[,c(1,4,2,3,5)]
+  colnames(mean_temps)[1]<-"End_year"
+  return(mean_temps)
+  }
+  
+  mean_temp_chill<-mean_temp_period(temps = temps,
+                                    start_JDay = chill_phase[1],
+                                    end_JDay = chill_phase[2],
+                                    end_season = heat_phase[2])
+  
+  mean_temp_heat<-mean_temp_period(temps = temps,
+                                   start_JDay = heat_phase[1],
+                                   end_JDay = heat_phase[2],
+                                   end_season = heat_phase[2])
+  
+  mean_temp_chill<-
+    mean_temp_chill[which(mean_temp_chill$n_days >= 
+                            max(mean_temp_chill$n_days)-1),]
+  mean_temp_heat<-
+    mean_temp_heat[which(mean_temp_heat$n_days >= 
+                           max(mean_temp_heat$n_days)-1),]
+  mean_chill<-mean_temp_chill[,c("End_year","Tmean")]
+  colnames(mean_chill)[2]<-"Tmean_chill"
+  mean_heat<-mean_temp_heat[,c("End_year","Tmean")]
+  colnames(mean_heat)[2]<-"Tmean_heat"
+  phase_Tmeans<-merge(mean_chill,mean_heat, by="End_year")
+  
+  colnames(pheno)<-c("End_year","pheno")
+  Tmeans_pheno<-merge(phase_Tmeans,pheno, by="End_year")
+  
+  # Kriging interpolation
+  k<-Krig(x=as.matrix(Tmeans_pheno[,c("Tmean_chill","Tmean_heat")]),
+          Y=Tmeans_pheno$pheno)
+  pred<-predictSurface(k)
+  colnames(pred$z)<-pred$y
+  rownames(pred$z)<-pred$x
+  melted<-melt(pred$z)
+  colnames(melted)<-c("Tmean_chill","Tmean_heat","value")
+  
+  ggplot(melted,aes(x=Tmean_chill,y=Tmean_heat,z=value)) +
+    geom_contour_fill(bins=60) +
+    scale_fill_gradientn(colours=alpha(matlab.like(15)),
+                         name=paste(phenology_stage,"date \n(day of the year)")) +
+    geom_contour(col="black") +
+    geom_text_contour(stroke = 0.2) +
+    geom_point(data=Tmeans_pheno,
+               aes(x=Tmean_chill,y=Tmean_heat,z=NULL),
+               size=0.7)  +
+    ylab(expression(paste("Forcing phase ", T[mean]," (",degree,"C)"))) +
+    xlab(expression(paste("Chilling phase ", T[mean]," (",degree,"C)"))) +
+    theme_bw(base_size=15)
+}
+
+Chill_model_sensitivity<-
+  function(latitude,
+           temp_models=list(Dynamic_Model=Dynamic_Model,GDH=GDH),
+           month_range=c(10,11,12,1,2,3),
+           Tmins=c(-10:20),
+           Tmaxs=c(-5:30))
+  {
+    mins<-NA
+    maxs<-NA
+    metrics<-as.list(rep(NA,length(temp_models)))
+    names(metrics)<-names(temp_models)
+    month<-NA
+    
+    for(mon in month_range)
+    {
+      days_month<-as.numeric(difftime( ISOdate(2002,mon+1,1),
+                                       ISOdate(2002,mon,1) ))
+      if(mon==12) days_month<-31
+      weather<-make_all_day_table(data.frame(Year=c(2001,2002),
+                                             Month=c(mon,mon),
+                                             Day=c(1,days_month),
+                                             Tmin=c(0,0),Tmax=c(0,0)))
+      
+      
+      for(tmin in Tmins)
+        for(tmax in Tmaxs)
+          if(tmax>=tmin)
+          {
+            weather$Tmin<-tmin
+            weather$Tmax<-tmax
+            hourtemps<-stack_hourly_temps(weather,
+                                          latitude=latitude)$hourtemps$Temp
+            for(tm in 1:length(temp_models))
+              metrics[[tm]]<-c(metrics[[tm]],
+                               do.call(temp_models[[tm]],
+                                       list(hourtemps))[length(hourtemps)]/
+                                 (length(hourtemps)/24))
+            mins<-c(mins,tmin)
+            maxs<-c(maxs,tmax)
+            month<-c(month,mon)
+          }
+    }
+    results<-cbind(data.frame(Month=month,Tmin=mins,Tmax=maxs),
+                   as.data.frame(metrics))
+    results<-results[!is.na(results$Month),]
+  }
+
+
+Chill_sensitivity_temps<-function(chill_model_sensitivity_table,
+                                  temperatures,
+                                  temp_model,
+                                  month_range=c(10,11,12,1,2,3),
+                                  Tmins=c(-10:20),
+                                  Tmaxs=c(-5:30),
+                                  legend_label="Chill/day (CP)")
+{
+  library(ggplot2)
+  library(colorRamps)
+  
+  cmst<-chill_model_sensitivity_table
+  cmst<-cmst[which(cmst$Month %in% month_range),]
+  cmst$Month_names<- factor(cmst$Month, levels=month_range,
+                            labels=month.name[month_range])  
+  
+  DM_sensitivity<-
+    ggplot(cmst,
+           aes_string(x="Tmin",y="Tmax",fill=temp_model)) +
+    geom_tile() +
+    scale_fill_gradientn(colours=alpha(matlab.like(15), alpha = .5),
+                         name=legend_label) +
+    xlim(Tmins[1],Tmins[length(Tmins)]) +
+    ylim(Tmaxs[1],Tmaxs[length(Tmaxs)])
+  
+  temperatures<-
+    temperatures[which(temperatures$Month %in% month_range),]
+  temperatures[which(temperatures$Tmax<temperatures$Tmin),
+               c("Tmax","Tmin")]<-NA
+  temperatures$Month_names <-
+    factor(temperatures$Month,
+           levels=month_range,
+           labels=month.name[month_range])  
+  
+  DM_sensitivity +
+    geom_point(data=temperatures,
+               aes(x=Tmin,y=Tmax,fill=NULL,color="Temperature"),
+               size=0.1) +
+    facet_wrap(vars(Month_names)) +
+    scale_color_manual(values = "black",
+                       labels = "Daily temperature \nextremes (°C)",
+                       name="Observed at site" ) +
+    guides(fill = guide_colorbar(order = 1),
+           color = guide_legend(order = 2)) +
+    ylab("Tmax (°C)") +
+    xlab("Tmin (°C)") + 
+    theme_bw(base_size=15)
+  
+}
 plot_PLS_chill_force<-function(plscf,
                                chill_metric="Chill_Portions",
                                heat_metric="GDH",
                                chill_label="CP",
                                heat_label="GDH",
-                               chill_phase=c(-48,62),
-                               heat_phase=c(-5,105.5))
+                               chill_phase=c(0,0),
+                               heat_phase=c(0,0))
 {
   PLS_gg<-plscf[[chill_metric]][[heat_metric]]$PLS_summary
   PLS_gg[,"Month"]<-trunc(PLS_gg$Date/100)

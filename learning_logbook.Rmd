@@ -1,14 +1,21 @@
 ---
 title: "Learning logbook on Tree phenology analysis with R"
 author: "Clemens Stephany"
-date: "10/11/2021"
-output: html_document
+date: "15/03/2022"
+output: 
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    number_figures: true
+    theme: readable
 bibliography: "bib/Tree Phenology.bib"
 link-citations: yes
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, warning = FALSE, message = FALSE)
 library(chillR)
 library(tidyverse)
 library(reshape2)
@@ -20,11 +27,12 @@ install_github("EduardoFernandezC/dormancyR")
 library(dormancyR)
 library(colorRamps)
 library(gganimate)
+library(Kendall)
 ```
 
-[Course Materials](http://inresgb-lehre.iaas.uni-bonn.de/chillR_book/winter-chill-projections.html)
+[Course Materials](http://inresgb-lehre.iaas.uni-bonn.de/chillR_book/introduction.html)
 
-## Tree Dormancy (Chapter 3)
+# Tree Dormancy (Chapter 3)
 Exercises on tree dormancy
 
 1. Put yourself in the place of a breeder who wants to calculate the temperature requirements of a newly released cultivar. Which method will you use to calculate the chilling and forcing periods? Please justify your answer.<p><p>
@@ -43,7 +51,7 @@ Right image: 89 - Fruit ripe for harvesting<br>
 (See @fadon_flower_2015 for reference)
 <p>
 
-## Climate change and impact projection (Chapter 4)
+# Climate change and impact projection (Chapter 4)
 Exercises on climate change<p>
 
 1. List the main drivers of climate change at the decade to century scale, and briefly explain the mechanism through which the currently most important driver affects our climate. <p><p>
@@ -67,7 +75,7 @@ The Representative Concentration Pathways (RCPs) are possible climate scenarios 
 Source: @luedeling_agroforestry_2014 <p>
    * Complex systems: The approach to model complex system is a holistic one incorporating any relevant information from all kind of resources. Handling uncertainties very well, it allows rough estimates to be inputs of the model and can thus cover all relevant aspects without extensive studies. The core are causal models which combine the information to calculate an outcome distribution. This approach is used in Decision Science and can be seen in this [project](https://github.com/cemno/optimizing-pesticide-application-in-orchards) from last semester.
 
-## Winter chill projections (Chapter 5)
+# Winter chill projections (Chapter 5)
 Exercises on past chill projections<p>
 1. Sketch out three data access and processing challenges that had to be overcome in order to produce chill projections with state-of-the-art methodology. <p><p>
    * Getting regional high resolution temperature data (Oman): To calculate chilling hours per day high resolution temperature data is needed. But as the temperature sensors where only being set up since a few years, high resolution data for several years was missing. This problem was overcome by a luckily nearby airport which generously donated its data.
@@ -79,7 +87,7 @@ Exercises on past chill projections<p>
 2. Outline, in your understanding, the basic steps that are necessary to make such projections.<p><p>
 test
 
-## Manual chill analysis (Chapter 6)
+# Manual chill analysis (Chapter 6)
 Exercises on basic chill modelling<p>
 1. Write a basic function that calculates warm hours (>25°C)
 2. Apply this function to the Winters_hours_gaps dataset
@@ -90,7 +98,7 @@ To evaluate the performance of different methods all these exercises where combi
 ```{r exercise_6, cache=TRUE, code=readLines("exercise_6.R")}
 ```
 
-## Chill Models (Chapter 7)
+# Chill Models (Chapter 7)
 Exercises on chill models<p>
 1. Run the chilling() function on the Winters_hours_gap dataset
 2. Create your own temperature-weighting chill model using the step_model() function
@@ -99,7 +107,7 @@ Exercises on chill models<p>
 ```{r exercise_7, cache=TRUE, code=readLines("exercise_7.R")}
 ```
 
-## Making hourly temperatures (Chapter 8)
+# Making hourly temperatures (Chapter 8)
 Exercises on hourly temperatures<p>
 1. Choose a location of interest, find out its latitude and produce plots of daily sunrise, sunset and day length
 2. Produce an hourly data set, based on idealized daily curves, for the KA_weather data set (included in chillR)
@@ -107,23 +115,62 @@ Exercises on hourly temperatures<p>
 
 ```{r exercise_8, code=readLines("exercise_8.R")}
 ```
-## Getting temperature data (Chapter 9)
+
+# Getting temperature data (Chapter 9)
+
+Exercises on getting temperature data<p>
+1. Choose a location of interest and find the 25 closest weather stations using the handle_gsod function
+2. Download weather data for the most promising station on the list
+3. Convert the weather data into chillR format
+
+
 ```{r exercise_9, code=readLines("exercise_9.R")}
 ```
-## Filling gaps in temperature records (Chapter 10)
+
+# Filling gaps in temperature records (Chapter 10)
+Exercises on filling gaps<p>
+1. You already downloaded some weather data in the exercises for the Getting temperatures lesson. You can keep working with this. Use chillR functions to find out how many gaps you have in this data set (even if you have none, please still follow all further steps)
+2. Create a list of the 25 closest weather stations using the handle_gsod function
+   * I chose to pick the Stations within the next 50km and that actually have data available.<p>
+3. Identify suitable weather stations for patching gaps
+   * Within 50km most weather stations should be suitable. One should still consider for example topological changes, but this does not seem to be the problem here.<p>
+4. Download weather data for promising stations, convert them to chillR format and compile them in a list
+5. Use the patch_daily_temperatures function to fill gaps
+6. Investigate the results - have all gaps been filled?
+7. If necessary, repeat until you have a data set you can work with in further analyses
+
 ```{r exercise_10, code=readLines("exercise_10.R")}
 ```
-## Generating temperature scenarios (Chapter 11)
+
+# Generating temperature scenarios (Chapter 11)
+
+Exercises on temperature generation<p>
+1. For the location you chose for your earlier analyses, use chillR’s weather generator to produce 100 years of synthetic temperature data.
+2. Calculate winter chill (in Chill Portions) for your synthetic weather, and illustrate your results as histograms and cumulative distributions.
+3. Produce similar plots for the number of freezing hours (<0°C) in April (or October, if your site is in the Southern Hemisphere) for your location of interest.
+
+
 ```{r exercise_11, code=readLines("exercise_11.R")}
 ```
-## Historic temperature scenarios (Chapter 13)
+
+# Historic temperature scenarios (Chapter 13)
+
+Exercises on generating historic temperature scenarios<p>
+1. For the location you chose for previous exercises, produce historic temperature scenarios representing several years of the historic record (your choice).
+2. Produce chill distributions for these scenarios and plot them.
+
 ```{r exercise_13, code=readLines("exercise_13.R")}
 ```
-## Future temperature scenarios (Chapter 14)
+# Future temperature scenarios (Chapter 14)
+
+Exercises on generating future temperature scenarios<p>
+1. Analyze the historic and future impact of climate change on three agroclimatic metrics of your choice, for the location you’ve chosen for your earlier analyses.
+
+
 ```{r exercise_14, code=readLines("exercise_14.R")}
 ```
 
-## Plotting future Scenarios (Chapter 15)
+# Plotting future Scenarios (Chapter 15)
 Exercises on getting temperature data<p>
 1. Produce similar plots for the weather station you selected for earlier exercises.
 
@@ -218,9 +265,7 @@ plot_scenarios_gg(past_observed=past_observed,
                   axis_label="Frost duration (in hours)")
 ```
 
-
-
-## Chill model comparison (Chapter 16)
+# Chill model comparison (Chapter 16)
 
 Exercises on chill model comparison<p>
 1. Perform a similar analysis for the location you’ve chosen for your exercises.
@@ -559,8 +604,7 @@ animate(animation, renderer = gifski_renderer())
 anim_save("chill_comparison_animation.gif", path = "data", animation = last_animation())
 ```
 
-
-## Simple phenology analysis (Chapter 17)
+# Simple phenology analysis (Chapter 17)
 Exercises on simple phenology analysis<p>
 1. Provide a brief narrative describing what p-hacking is, and why this is a problematic approach to data analysis.
    * P-hacking describes the optimization of a particular model or result for the sake of improving the statistical parameters (overfitting) but neglecting the original goal of explaining reality as best and simple as possible. One should always have the end goal in mind and should not analyze data for the sake of an analysis.
@@ -569,12 +613,12 @@ Exercises on simple phenology analysis<p>
 3. What do we need to know to build a process-based model from this?
    * We need phenology data and daily or even hourly temperature data. We also need some programming skills.
 
-## PLS analysis of ‘Alexander Lucas’ pears in Klein-Altendorf (Chapter 18)
+# PLS analysis of ‘Alexander Lucas’ pears in Klein-Altendorf (Chapter 18)
 Exercises on chill model comparison<p>
 1. Briefly explain why you shouldn’t take the results of a PLS regression analysis between temperature and phenology at face value. What do you need in addition in order to make sense of such outputs?
-   * As PLS usually applied (and also designed) for detecting a trend in a very large data set, it should usually not be applied on a small data set such as most phenology data sets. Only with a clear picture of ongoing processes in mind this can empirically support a thesis based on our ecological understanding, not the other way around. The difference is to have concrete expectations and explainations prior to the analysis. Don't get tainted by running the analysis before your literature research!
+   * As PLS usually applied (and also designed) for detecting a trend in a very large data set, it should usually not be applied on a small data set such as most phenology data sets. Only with a clear picture of ongoing processes in mind this can empirically support a thesis based on our ecological understanding, not the other way around. The difference is to have concrete expectations and explainations prior to the analysis. Don't get tainted by running the analysis before your literature research! <p>
 2. Replicate the PLS analysis for the Roter Boskoop dataset that you used in a previous lesson.
-```{r}
+```{r exercise_18_pls_analysis}
 # Loading bloom data for Roter Boskoop
 rot_bskp <- read_tab("data/Roter_Boskoop_bloom_1958_2019.csv")
 rot_bskp_first <- rot_bskp[, 1:2]
@@ -593,23 +637,566 @@ source(file = "treephenology_functions.R")
 ggplot_PLS(PLS_results)
 ```
 3. Write down your thoughts on why we’re not seeing the temperature response pattern we may have expected. What happened to the chill response?
-   * Our PLS analysis shows the time at which different temperatures are positively or negatively effecting our result, in this case blooming dates. So variation is needed to show, in which direction temperatures are effecting our blooming date. If it is always cold enough to overcome endo-dormancy (fast enough), the PLS analysis can't possibly detect anything, because the difference in temperature in November and December doesn't change the bloom date in this cold region. The requirement is simply always met. Heat in spring on the other hand is quite a problem for our temperate climate and thus even slight variations will be quickly represented by blooming date.
+   * Our PLS analysis shows the time at which different temperatures are positively or negatively effecting our result, in this case blooming dates. So variation is needed to show, in which direction temperatures are effecting our blooming date. If it is always cold enough to overcome endo-dormancy (fast enough), the PLS analysis can't possibly detect anything, because the difference in temperature in November and December doesn't change the bloom date in this cold region. The requirement is simply always met. Heat in spring on the other hand is quite a problem for our temperate climate and thus even slight variations will be quickly represented by blooming date.<p>
 
-## Successes and limitations of PLS regression analysis (Chapter 19)
+# Successes and limitations of PLS regression analysis (Chapter 19)
 Exercises on chill model comparison<p>
 1. Briefly explain in what climatic settings we can expect PLS regression to detect the chilling phase - and in what settings this probably won’t work.
-   * Dependent on the chill model being used, temperatures that have a reasonable amount of data points on the positive side outside the region of chill accumulation can be expected to work. A lot of data points on the negative side (colder places) are not affected, as there always is a period of transition through the optimal chill accumulation temperature zone. To put it in a nutshell, sufficient warm temperatures outside the chill accumulation region are needed to identify the chilling period with the PLS analysis. 
+   * Dependent on the chill model being used, temperatures that have a reasonable amount of data points on the positive side outside the region of chill accumulation can be expected to work. A lot of data points on the negative side (colder places) are not affected, as there always is a period of transition through the optimal chill accumulation temperature zone. To put it in a nutshell, sufficient warm temperatures outside the chill accumulation region are needed to identify the chilling period with the PLS analysis. <p>
 2. How could we overcome this problem?
-   * Instead of only looking at the temperature, we could take a look at the two phases separately (chilling and forcing) and correlate the chill accumulation and heat accumulation separately. 
+   * Instead of only looking at the temperature, we could take a look at the two phases separately (chilling and forcing) and correlate the chill accumulation and heat accumulation separately. <p>
 
-## PLS regression with agroclimatic metrics (Chapter 20)
+# PLS regression with agroclimatic metrics (Chapter 20)
 Exercises on chill model comparison:<p>
 1. Repeat the PLS_chill_force procedure for the ‘Roter Boskoop’ dataset. Include plots of daily chill and heat accumulation.
-   * 
-2. Run PLS_chill_force analyses for all three major chill models. Delineate your best estimates of chilling and forcing phases for all of them.
-   * 
-3. Plot results for all three analyses, including shaded plot areas for the chilling and forcing periods you estimated.
-   *
+```{r exercise_20_daily_chill_and_heat}
+# Load temperature and bloom data
+temps <- read_tab("data/TMaxTMin1958-2019_patched.csv")
+temps_hourly <- stack_hourly_temps(temps, latitude = 50.6)
+
+rot_bskp <- read_tab("data/Roter_Boskoop_bloom_1958_2019.csv")
+rot_bskp_first <- rot_bskp[, 1:2]
+rot_bskp_first[, "Year"] <- substr(rot_bskp_first$First_bloom, 1, 4)
+rot_bskp_first[, "Month"] <-
+   substr(rot_bskp_first$First_bloom, 5, 6)
+rot_bskp_first[, "Day"] <- substr(rot_bskp_first$First_bloom, 7, 8)
+rot_bskp_first <- make_JDay(rot_bskp_first)
+rot_bskp_first <- rot_bskp_first[, c("Pheno_year", "JDay")]
+colnames(rot_bskp_first) <- c("Year", "pheno")
+
+# Calculate daily chill accumulation
+daychill <- daily_chill(
+   hourtemps = temps_hourly,
+   running_mean = 1,
+   models = list(
+      Chilling_Hours = Chilling_Hours,
+      Utah_Chill_Units = Utah_Model,
+      Chill_Portions = Dynamic_Model,
+      GDH = GDH
+   )
+)
+
+tmp <-
+   make_daily_chill_plot2(
+      daychill,
+      metrics = c("Chill_Portions"),
+      cumulative = FALSE,
+      startdate = 300,
+      enddate = 30,
+      focusyears = c(2008),
+      metriclabels = "Chill Portions"
+   )
+tmp <-
+   make_daily_chill_plot2(
+      daychill,
+      metrics = c("Chill_Portions"),
+      cumulative = TRUE,
+      startdate = 300,
+      enddate = 30,
+      focusyears = c(2008),
+      metriclabels = "Chill Portions"
+   )
+
+tmp <-
+   make_daily_chill_plot2(
+      daychill,
+      metrics = c("GDH"),
+      cumulative = FALSE,
+      startdate = 300,
+      enddate = 30,
+      focusyears = c(2008),
+      metriclabels = "GDH"
+   )
+tmp <-
+   make_daily_chill_plot2(
+      daychill,
+      metrics = c("GDH"),
+      cumulative = TRUE,
+      startdate = 300,
+      enddate = 30,
+      focusyears = c(2008),
+      metriclabels = "GDH"
+   )
+rm(tmp)
+
+plscf <- PLS_chill_force(
+   daily_chill_obj = daychill,
+   bio_data_frame = rot_bskp_first,
+   split_month = 6,
+   chill_models = c("Chilling_Hours", "Utah_Chill_Units", "Chill_Portions"),
+   heat_models = "GDH",
+   runn_means = 11
+)
+source("treephenology_functions.R")
+plot_PLS_chill_force(
+   plscf,
+   chill_metric = "Chill_Portions",
+   heat_metric = "GDH",
+   chill_label = "CP",
+   heat_label = "GDH",
+   chill_phase = c(0, 0),
+   heat_phase = c(0, 0)
+)
+
+```
+2. Run PLS_chill_force analyses for all three major chill models. Delineate your best estimates of chilling and forcing phases for all of them and (3.) plot results for all three analyses, including shaded plot areas for the chilling and forcing periods you estimated.
+   * Wasn't conducting the analysis already part of the first Question? I hope the following is sufficient for Question 2 and 3. <p>
+```{r}
+# Calculate PLS chill force model
+plscf <- PLS_chill_force(
+   daily_chill_obj = daychill,
+   bio_data_frame = rot_bskp_first,
+   split_month = 6,
+   chill_models = c("Chilling_Hours", "Utah_Chill_Units", "Chill_Portions"),
+   heat_models = "GDH",
+   runn_means = 11
+)
+source("treephenology_functions.R")
+# Chilling Hours
+plot_PLS_chill_force(
+   plscf,
+   chill_metric = "Chilling_Hours",
+   heat_metric = "GDH",
+   chill_label = "CH",
+   heat_label = "GDH",
+   chill_phase = c(-12, 52),
+   heat_phase = c(-1, 116.5)
+)
+#  Utah Chilling Units
+plot_PLS_chill_force(
+   plscf,
+   chill_metric = "Utah_Chill_Units",
+   heat_metric = "GDH",
+   chill_label = "CU",
+   heat_label = "GDH",
+   chill_phase = c(-10, 71),
+   heat_phase = c(-5, 116.5)
+)
+# Chill Portions
+plot_PLS_chill_force(
+   plscf,
+   chill_metric = "Chill_Portions",
+   heat_metric = "GDH",
+   chill_label = "CP",
+   heat_label = "GDH",
+   chill_phase = c(-26, 64),
+   heat_phase = c(2, 116.5)
+)
+```
+
+# Examples of PLS regression with agroclimatic metrics (Chapter 21)
+Exercises on examples of PLS regression with agroclimatic metrics<p>
+1. Look across all the PLS results presented above. Can you detect a pattern in where chilling and forcing periods could be delineated clearly, and where this attempt failed?
+   * If their it is a cold climate the chilling process is harder so see and if there is a warm climate the forcing period is hard to pin down. Only the climates that are right in the middle are displaying both phases very clearly. So of their is sufficient chill, we can't see specific periods that are really important for chilling and if their is enough heat we can't see the forcing.<p>
+2. Can you think about possible reasons for the success or failure of PLS analysis based on agroclimatic metrics (if so, write down your thoughts)?
+   * To identify values that are very important to our outcome, the most important thing is variation. To get to know what works and what does not is essential here. Being in a climate that has no variation (around the critical region), the PLS analysis will never pick an always present factor as especially important, because it simple is not important in this climate. Its always fulfilled anyway.<p>
+
+
+# Why PLS doesn’t always work (Chapter 22)
+Exercises on expected PLS responsiveness<p>
+1. Produce chill and heat model sensitivity plots for the location you focused on in previous exercises.
+```{r exercise_22_sensitivity_plots}
+source("treephenology_functions.R")
+model_sensitivities_porto <- Chill_model_sensitivity(latitude=41.149178,
+                          temp_models=list(Dynamic_Model=Dynamic_Model,
+                                           GDH=GDH),
+                          month_range=c(10:12,1:5))
+porto_weather <- read_tab("data/porto_weather.csv")
+Chill_sensitivity_temps(model_sensitivities_porto,
+                        porto_weather,
+                        temp_model="Dynamic_Model",
+                        month_range=c(10,11,12,1,2,3),
+                        legend_label="Chill per day \n(Chill Portions)") +
+  ggtitle("Chill model sensitivity at Porto, Portugal")
+Chill_sensitivity_temps(model_sensitivities_porto,
+                        porto_weather,
+                        temp_model="GDH",
+                        month_range=c(12,1:5),
+                        legend_label="Heat per day \n(GDH)") +
+  ggtitle("Heat model sensitivity at Porto, Portugal")
+```
+
+2. Look at the plots for the agroclimate-based PLS analyses of the ‘Alexander Lucas’ and ‘Roter Boskoop’ datasets. Provide your best estimates of the chilling and forcing phases.
+   * I don't quite understand the Question, wasn't it already answered in Chapter 20? I clearly see **why** the PLS analysis can't identify the chilling period because the weather is almost ideal for chilling and there are no values warmer then required for chilling. But i don't now how this helps me further narrowing down the chilling period but getting a better understanding of the temoeratures during this period.  <p>
+
+# Evaluating PLS outputs (chapter 23)
+Exercises on evaluating PLS regression results
+1. Reproduce the analysis for the ‘Roter Boskoop’ dataset.
+```{r exercise_23_phenotrend}
+# Note: Data loading is the same as in chapter 22 and thus not repeated.
+chill_phase <- c(339, 64)
+heat_phase <- c(2, 117)
+
+chill <- tempResponse(
+  hourtemps = temps_hourly,
+  Start_JDay = chill_phase[1],
+  End_JDay = chill_phase[2],
+  models = list(Chill_Portions = Dynamic_Model),
+  misstolerance = 10
+)
+
+heat <- tempResponse(
+  hourtemps = temps_hourly,
+  Start_JDay = heat_phase[1],
+  End_JDay = heat_phase[2],
+  models = list(GDH = GDH)
+)
+
+# Plot chill and heat accumulation distribution
+ggplot(data = chill, aes(x = Chill_Portions)) +
+  geom_histogram() +
+  ggtitle("Chill accumulation during endodormancy (Chill Portions)") +
+  xlab("Chill accumulation (Chill Portions)") +
+  ylab("Frequency between 1958 and 2019") +
+  theme_bw(base_size = 12)
+
+
+ggplot(data = heat, aes(x = GDH)) +
+  geom_histogram() +
+  ggtitle("Heat accumulation during ecodormancy (GDH)") +
+  xlab("Heat accumulation (Growing Degree Hours)") +
+  ylab("Frequency between 1958 and 2019") +
+  theme_bw(base_size = 12)
+
+source("treephenology_functions.R")
+pheno_trend_ggplot(temps=temps,
+                   pheno=rot_bskp_first,
+                   chill_phase=chill_phase,
+                   heat_phase=heat_phase,
+                   phenology_stage="Bloom")
+
+
+```
+2. We’ve looked at data from a number of locations so far. How would you expect this surface plot to look like in Beijing? And how should it look in Tunisia?
+   * As Beijing has a really cold winter, i would suspect the forcing phase to be the main limiting factor and it is located on the y-axis. Thus the lines of the phenology trend plot should be almost horizontal, because at this point every increase in temperature will help achieving an earlier bloom date. <p>
+
+# The relative importance of chill and heat (Chapter 24)
+Exercises on the relative importance of chill and heat <p>
+1. Describe the temperature response hypothesis outlined in this chapter.
+   * The idea is that there is an optimum for early bloom dates, and both - chilling and forcing - have to be sufficiently fulfilled. If the climate is really cold, chilling will be fulfilled, but the forcing will be the sole limiting factor. This shifts as a circle around an optimal area to where in hot climates the forcing is easily fulfilled and the chilling phase is the whole limiting factor. In between these extremes both, the chilling and forcing period, impact the bloom date. <p>
+
+# Experimentally enhanced PLS (Chapter 25)
+Exercises on experimental PLS <p>
+No exercises today. Maybe you can work on cleaning up your logbook.
+
+# Making valid tree phenology models (Chapter 26)
+Exercises on making valid tree phenology models <p>
+1. Explain the difference between output validation and process validation.
+   * Output validation refers to an analysis on the output of your model, rather than its reasoning for the output. This is often encountered in machine learning, where the train model is somewhat a black box, which predicts according to its purpose. These models can be train quite well an accurate for a particular use case, but i often falls apart when this model is supposed to predict on unknown values - or rather - values not within the range of its training values. But this rule goes for every model which is not process validated. This means, rather then only the output, the whole processing pipeline gets analyzed and validated. This guarantees that each step is reasonable for our use case and we also know about each steps weaknesses. To successfully conduct such an process validation, one as to ensure that all our understanding of the process in reality flows into each step and is suitable presented in our model.<p>
+2. Explain what a validity domain is and why it is important to consider this whenever we want to use our model to forecast something.
+   * A validity domain refers to a models input and output space that's results in for the model intended values. This is usually the scope of which the model was designed for, but this is a bit sketchy, as only the models designer fully knows the answer to that question. Thus one should also consider, whats the validity domain of a model and if it is actually suited for the use case its going to be applied to. <p>
+3. What is validation for purpose?
+   * The validation for purpose is important when considering to implement a model, as a model should only be used for its intended purpose. Thus we have to carefully access the models validity for our purpose and decide based on this whether <p>
+4. How can we ensure that our model is suitable for the predictions we want to make?
+   * We have to take all the above mentioned concerns into consideration and check if anything is not suitable for our case. For a better understanding we can also do an analysis on the number range we want to use our model for compare it for the space it was created on/for. Besides improving our understanding of the model this also gives us hard evidence for the validity of your model and can help interpreting the results. <p>
+
+# The PhenoFlex model (Chapter 27)
+Exercises on making valid tree phenology models<p>
+1. Parameterize the PhenoFlex model for `Roter Boskoop’ apples.
+```{r exercise_27_phenoflex_parameters}
+# Parameters
+#          yc,  zc,  s1, Tu,    E0,      E1,     A0,         A1,   Tf, Tc, Tb,  slope
+par <-   c(40, 190, 0.5, 25, 3372.8,  9900.3, 6319.5, 5.939917e13,  4, 36,  4,  1.60)
+upper <- c(41, 200, 1.0, 30, 4000.0, 10000.0, 7000.0,       6.e13, 10, 40, 10, 50.00)
+lower <- c(38, 180, 0.1, 0 , 3000.0,  9000.0, 6000.0,       5.e13,  0,  0,  0,  0.05)
+
+# Generate list with temp tables for each season
+years <- c(1959:2018)
+SeasonList <- genSeasonList(temps_hourly$hourtemps, mrange = c(8, 6), years=years)
+
+# Fitting parameters
+Fit_res <- phenologyFitter(par.guess=par, 
+                           modelfn = PhenoFlex_GDHwrapper,
+                           bloomJDays=rot_bskp_first$pheno[which(rot_bskp_first$Year>=years[1])],
+                           SeasonList=SeasonList,
+                           lower=lower,
+                           upper=upper,
+                           control=list(smooth=FALSE, verbose=FALSE, maxit=1000,
+                                        nb.stop.improvement=5))
+
+```
+
+2. Produce plots of predicted vs. observed bloom dates and distribution of prediction errors.
+```{r exercise_27_phenoflex_plotting}
+# Gathering all desired results in one table
+predictions <- data.frame(season=years,
+                        prediction=Fit_res$pbloomJDays,
+                        pheno = Fit_res$bloomJDays,
+                        error = Fit_res$pbloomJDays - Fit_res$bloomJDays)
+
+ggplot(data = predictions, aes(x = season, y = JDay_to_date(prediction, 
+                                                2001, 
+                                                date_format = "%Y-%m-%d"))) +
+  geom_smooth() +
+  geom_point() +
+  ylab("Predicted bloom date on Roter Boskoop in Klein-Altendorf") +
+  theme_bw(base_size=15)
+
+ggplot(predictions,aes(x=pheno,y=prediction)) +
+  geom_point() +
+  geom_abline(intercept=0, slope=1)+
+  geom_smooth(method = "lm", colour = "firebrick")+
+  theme_bw(base_size = 15) +
+  xlab("Observed bloom date (Day of the year)") +
+  ylab("Predicted bloom date (Day of the year)") +
+  ggtitle("Predicted vs. observed bloom dates")
+
+ggplot(predictions,aes(error)) +
+  geom_histogram() +
+  ggtitle("Distribution of prediction errors")
+
+```
+
+3. Compute the model performance metrics RMSEP, mean error and mean absolute error.
+```{r exercise_27_phenoflex_metrics}
+# Root Mean Square Error of Prediction (RMSEP) 
+RMSEP(predictions$prediction, predictions$pheno)
+
+# Mean Error
+mean(predictions$error)
+
+# Mean Absolute Error (MAE)
+mean(abs(predictions$error))
+
+```
+
+# The PhenoFlex model - a second look (Chapter 28)
+Exercises on basic PhenoFlex diagnostics<p>
+1. Make chill and heat response plots for the ‘Alexander Lucas’ PhenoFlex model for the location you did the earlier analyses for.
+2. **Alternative Option:** Make the plots for CKA and the 'Roter Boskoop' dataset.
+```{r exercise_28_phenoflex_response}
+# Create temperature response based on our model
+temp_values=seq(-5, 30, 0.1)
+simulation_par <- Fit_res$par
+source("treephenology_functions.R")
+temp_response<-data.frame(Temperature=temp_values,
+                          Chill_response=gen_bell(simulation_par, temp_values),
+                          Heat_response=GDH_response(temp_values,simulation_par))
+melted_response<-reshape2::melt(temp_response,id.vars="Temperature")
+
+# Plot temperature response
+ggplot(melted_response,aes(x=Temperature,y=value)) +
+  geom_line(size=2,aes(col=variable)) +
+  ylab("Temperature response (arbitrary units)") +
+  xlab("Temperature (°C)") +
+  facet_wrap(vars(variable),scales="free",
+             labeller = labeller(variable=c(Chill_response=c("Chill response"),
+                                 Heat_response=c("Heat response")))) +
+  scale_color_manual(values = c("Chill_response" = "blue", "Heat_response" = "red")) +
+  theme_bw(base_size = 15) +
+  theme(legend.position = "none")
+
+# Cycling through all Tmin-Tmax kombinations and calculate PhenoFlex Temperature response
+latitude<-50.6
+month_range<-c(10,11,12,1,2,3)
+Tmins=c(-20:20)
+Tmaxs=c(-15:30)
+mins<-NA
+maxs<-NA
+chill_eff<-NA
+heat_eff<-NA
+month<-NA
+
+for(mon in month_range)
+    {days_month<-as.numeric(difftime( ISOdate(2002,mon+1,1),
+                                           ISOdate(2002,mon,1) ))
+    if(mon==12) days_month<-31
+    weather<-make_all_day_table(data.frame(Year=c(2001,2002),
+                                         Month=c(mon,mon),
+                                         Day=c(1,days_month),Tmin=c(0,0),Tmax=c(0,0)))
+    for(tmin in Tmins)
+      for(tmax in Tmaxs)
+        if(tmax>=tmin)
+          {
+          weather$Tmin<-tmin
+          weather$Tmax<-tmax
+          hourtemps<-stack_hourly_temps(weather,
+                                        latitude=latitude)$hourtemps$Temp
+          chill_eff<-c(chill_eff,
+                       PhenoFlex(temp=hourtemps,
+                                 times=c(1: length(hourtemps)),
+                                 A0=simulation_par[7],
+                                 A1=simulation_par[8],
+                                 E0=simulation_par[5],
+                                 E1=simulation_par[6],
+                                 Tf=simulation_par[9],
+                                 slope=simulation_par[12],
+                                 deg_celsius=TRUE,
+                                 basic_output=FALSE)$y[length(hourtemps)]/
+                                         (length(hourtemps)/24))
+          heat_eff<-c(heat_eff,
+                      cumsum(GDH_response(hourtemps,
+                                          simulation_par))[length(hourtemps)]/
+                                                 (length(hourtemps)/24))
+          mins<-c(mins,tmin)
+          maxs<-c(maxs,tmax)
+          month<-c(month,mon)
+        }
+    }
+results<-data.frame(Month=month,Tmin=mins,Tmax=maxs,Chill_eff=chill_eff,Heat_eff=heat_eff)
+results<-results[!is.na(results$Month),]
+source("treephenology_functions.R")
+Chill_sensitivity_temps(results,
+                        temps_hourly$hourtemps,
+                        temp_model="Chill_eff",
+                        month_range=c(10,11,12,1,2,3),
+                        Tmins=c(-20:20),
+                        Tmaxs=c(-15:30),
+                        legend_label="Chill per day \n(arbitrary)") +
+  ggtitle("PhenoFlex chill efficiency ('Roter Boskoop')")
+
+Chill_sensitivity_temps(results,
+                        temps_hourly$hourtemps,
+                        temp_model="Heat_eff",
+                        month_range=c(10,11,12,1,2,3),
+                        Tmins=c(-20:20),
+                        Tmaxs=c(-15:30),
+                        legend_label="Heat per day \n(arbitrary)") +
+  ggtitle("PhenoFlex heat efficiency ('Roter Boskoop')")
+
+```
+
+# Can we improve the performance of PhenoFlex? (Chapter 29)
+Exercises on improving the performance of PhenoFlex<p>
+1. What was the objective of this work?
+   * The key objective was to broaden the validity domain and reduce over fitting of the PhenoFlex model by increasing the variation of data points used for calibration and also excluding some data for training to later use data from the same set the model has never seen before as validation. This is a typical method in predictive modeling.<p>
+2. What was the main conclusion?
+   * The Model can indeed be further improved and under extreme conditions there are some mechanism in the process of dormancy breaking that are currently not considered by the Phenoflex model.<p>
+3. What experiments could we conduct to test the hypothesis that emerged at the end of the conclusion?
+   * One could try to apply this workflow on a diverse data set as this one but a more realistic temperature curve. Adding to much artifical data might distord the PhenoFlex parameterization. <p>
+
+# Frost risk analysis (Chapter 30)
+
+Exercises on frost risk analysis<p>
+1. Download the phenology dataset for the apple cultivar Roter Boskoop from Klein-Altendorf.
+   * Already done. <p>
+2. Illustrate the development of the bloom period over the duration of the weather record. Use multiple ways to show this - feel free to be creative.
+```{r exercise_30_bloom_trend}
+roter_boskoop<-melt(rot_bskp,
+                      id.vars = "Pheno_year",
+                      value.name="YEARMODA")
+roter_boskoop$Year<-as.numeric(substr(roter_boskoop$YEARMODA,1,4))
+roter_boskoop$Month<-as.numeric(substr(roter_boskoop$YEARMODA,5,6))
+roter_boskoop$Day<-as.numeric(substr(roter_boskoop$YEARMODA,7,8))
+roter_boskoop<-make_JDay(roter_boskoop)
+
+ggplot(data=roter_boskoop,aes(Pheno_year,JDay,col=variable)) +
+  geom_line() +
+  geom_smooth(alpha = 0.2) +
+  theme_bw(base_size=15) +
+  scale_color_discrete(
+    name="Phenological event",
+    labels=c("First bloom", "Full bloom", "Last bloom")) +
+  xlab("Phenological year") +
+  ylab("Julian date (day of the year)")
+```
+3. Evaluate the occurrence of frost events at Klein-Altendorf since 1958. Illustrate this in a plot.
+```{r exercise_30_frost_events}
+frost_df=data.frame(
+  lower=c(-1000,0),
+  upper=c(0,1000),
+  weight=c(1,0))
+
+frost_model<-function(x) step_model(x,frost_df)
+frost<-tempResponse(temps_hourly,models=c(frost=frost_model))
+
+frost_model_no_summ<-function(x) step_model(x, frost_df, summ=FALSE)
+
+temps_hourly$hourtemps[,"frost"]<-frost_model_no_summ(temps_hourly$hourtemps$Temp)
+
+Daily_frost_hours<-aggregate(temps_hourly$hourtemps$frost,
+                             by=list(temps_hourly$hourtemps$YEARMODA),
+                             FUN=sum)
+
+Daily_frost<-make_JDay(temps)
+
+Daily_frost[,"Frost_hours"]<-Daily_frost_hours$x
+ggplot(frost,aes(End_year,frost)) +
+  geom_smooth() +
+  geom_point() +
+  ylim(c(0,NA)) +
+  ylab("Frost hours per year") +
+  xlab("Year")
+```
+
+4. Produce an illustration of the relationship between spring frost events and the bloom period of ‘Roter Boskoop.’
+```{r exercise_30_bloom_frost_trend}
+frost_model_no_summ<-function(x) step_model(x, frost_df, summ=FALSE)
+
+temps_hourly$hourtemps[,"frost"]<-frost_model_no_summ(temps_hourly$hourtemps$Temp)
+
+Daily_frost_hours<-aggregate(temps_hourly$hourtemps$frost,
+                             by=list(temps_hourly$hourtemps$YEARMODA),
+                             FUN=sum)
+
+Daily_frost<-make_JDay(temps)
+
+Daily_frost[,"Frost_hours"]<-Daily_frost_hours$x
+
+Daily_frost$Frost_hours[which(Daily_frost$Frost_hours==0)]<-NA
+
+Ribbon_Rot<-dcast(roter_boskoop,Pheno_year ~ variable, value.var = "JDay")
+lookup_dates<-Ribbon_Rot
+row.names(lookup_dates)<-lookup_dates$Pheno_year
+
+Daily_frost[,"First_bloom"]<-
+  lookup_dates[as.character(Daily_frost$Year),"First_bloom"]
+Daily_frost[,"Last_bloom"]<-
+  lookup_dates[as.character(Daily_frost$Year),"Last_bloom"]
+
+Daily_frost[
+  which(!is.na(Daily_frost$Frost_hours)),"Bloom_frost"]<-
+  "Before bloom"
+Daily_frost[
+  which(Daily_frost$JDay>=Daily_frost$First_bloom),"Bloom_frost"]<-
+  "During bloom"
+Daily_frost[
+  which(Daily_frost$JDay>Daily_frost$Last_bloom),"Bloom_frost"]<-
+  "After bloom"
+Daily_frost[
+  which(Daily_frost$JDay>180),"Bloom_frost"]<-
+  "Before bloom"
+
+ggplot(data=Ribbon_Rot,aes(Pheno_year)) +
+  geom_ribbon(aes(ymin = First_bloom, ymax = Last_bloom),
+              fill = "light gray") +
+  geom_line(aes(y = Full_bloom)) +
+  theme_bw(base_size=15) +
+  xlab("Phenological year") +
+  ylab("Julian date (day of the year)") +
+  geom_point(data=Daily_frost,
+             aes(Year,JDay,size=Frost_hours,col=Bloom_frost),
+             alpha = 0.8) + 
+  scale_size(range = c(0, 5),
+             breaks = c(1, 5, 10, 15, 20),
+             labels = c("1", "5", "10", "15", "20"),
+             name="Frost hours") +
+  scale_color_manual(
+    breaks=c("Before bloom", "During bloom", "After bloom"),
+    values=c("light green","red","light blue"),
+    name="Frost timing") +
+  theme_bw(base_size=15) +
+  ylim(c(80,160))
+```
+
+5. Evaluate how the risk of spring frost for this cultivar has changed over time. Has there been a significant trend?
+```{r exercise_30_risk_trend}
+Bloom_frost_trend<-aggregate(
+  Daily_frost$Frost_hours,
+  by=list(Daily_frost$Year,Daily_frost$Bloom_frost),
+  FUN=function(x) sum(x,na.rm=TRUE))
+colnames(Bloom_frost_trend)<-c("Year","Frost_timing","Frost_hours")
+
+DuringBloom<-
+  Bloom_frost_trend[which(Bloom_frost_trend$Frost_timing=="During bloom"),]
+
+ggplot(data=DuringBloom,aes(Year,Frost_hours)) +
+  geom_col() 
+
+Kendall(x=DuringBloom$Year,y=DuringBloom$Frost_hours)
+lm(DuringBloom$Frost_hours~DuringBloom$Year)
+```
+   * A very slight increase of frost risk was detected, but does not prove to be significant.
 
 
 # Bibliography
